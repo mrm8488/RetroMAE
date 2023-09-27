@@ -155,4 +155,6 @@ if __name__ == '__main__':
         dataset = create_passage_data(args.tokenizer_name, args.max_seq_length, args.short_seq_prob)
         dataset.save_to_disk(args.output_dir)
     else:
-        raise NotImplementedError
+        print('download and preprocess custom datastet:')
+        custom_ds = create_book_data(args.tokenizer_name, args.max_seq_length, args.short_seq_prob)
+        custom_ds.save_to_disk(args.output_dir)
