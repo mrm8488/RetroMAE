@@ -9,6 +9,8 @@ from transformers import AutoTokenizer
 def get_args():
     parser = argparse.ArgumentParser()
     parser.add_argument("--data", type=str)
+    parser.add_arguemnt("--dataset_id", type=str, default="dccuchile/bert-base-spanish-wwm-cased")
+    parser.add_arguemnt("--dataset_subset", type=str, default="combined")
     parser.add_argument("--tokenizer_name", type=str)
     parser.add_argument("--output_dir", type=str)
     parser.add_argument("--max_seq_length", type=int, default=512)
@@ -45,7 +47,7 @@ def create_book_data(tokenizer_name: str,
             blocks.append(curr_block)
         return {'token_ids': blocks}
 
-    bookcorpus = load_dataset('bookcorpus', split='train') if not is_custom else load_dataset("large_spanish_corpus", "combined")
+    bookcorpus = load_dataset('bookcorpus', split='train') if not is_custom else load_dataset(args.dataset_id, args.dataset_subset)
     tokenized_bookcorpus = bookcorpus.map(book_tokenize_function, num_proc=8, remove_columns=["text"], batched=True)
     processed_bookcorpus = tokenized_bookcorpus.map(book_pad_each_line, num_proc=8, batched=True,
                                                     remove_columns=["input_ids"])
