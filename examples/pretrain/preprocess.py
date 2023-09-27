@@ -19,7 +19,8 @@ def get_args():
 
 def create_book_data(tokenizer_name: str,
                      max_seq_length: int,
-                     short_seq_prob: float = 0.0):
+                     short_seq_prob: float = 0.0, 
+                     is_custom=False):
     tokenizer = AutoTokenizer.from_pretrained(tokenizer_name)
     target_length = max_seq_length - tokenizer.num_special_tokens_to_add(pair=False)
 
@@ -44,7 +45,7 @@ def create_book_data(tokenizer_name: str,
             blocks.append(curr_block)
         return {'token_ids': blocks}
 
-    bookcorpus = load_dataset('bookcorpus', split='train')
+    bookcorpus = load_dataset('bookcorpus', split='train') if not is_custom else load_dataset("large_spanish_corpus", "combined")
     tokenized_bookcorpus = bookcorpus.map(book_tokenize_function, num_proc=8, remove_columns=["text"], batched=True)
     processed_bookcorpus = tokenized_bookcorpus.map(book_pad_each_line, num_proc=8, batched=True,
                                                     remove_columns=["input_ids"])
@@ -156,5 +157,5 @@ if __name__ == '__main__':
         dataset.save_to_disk(args.output_dir)
     else:
         print('download and preprocess custom datastet:')
-        custom_ds = create_book_data(args.tokenizer_name, args.max_seq_length, args.short_seq_prob)
+        custom_ds = create_book_data(args.tokenizer_name, args.max_seq_length, args.short_seq_prob, is_custom=True)
         custom_ds.save_to_disk(args.output_dir)
