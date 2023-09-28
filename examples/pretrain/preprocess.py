@@ -9,8 +9,8 @@ from transformers import AutoTokenizer
 def get_args():
     parser = argparse.ArgumentParser()
     parser.add_argument("--data", type=str)
-    parser.add_arguemnt("--dataset_id", type=str, default="dccuchile/bert-base-spanish-wwm-cased")
-    parser.add_arguemnt("--dataset_subset", type=str, default="combined")
+    parser.add_argument("--dataset_id", type=str, default="large_spanish_corpus")
+    parser.add_argument("--dataset_subset", type=str, default="combined")
     parser.add_argument("--tokenizer_name", type=str)
     parser.add_argument("--output_dir", type=str)
     parser.add_argument("--max_seq_length", type=int, default=512)
