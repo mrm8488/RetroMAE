@@ -15,13 +15,15 @@ def get_args():
     parser.add_argument("--output_dir", type=str)
     parser.add_argument("--max_seq_length", type=int, default=512)
     parser.add_argument("--short_seq_prob", type=float, default=0)
+    parser.add_argument("--num_proc", type=int, default=8)
 
     return parser.parse_args()
 
 
 def create_book_data(tokenizer_name: str,
                      max_seq_length: int,
-                     short_seq_prob: float = 0.0, 
+                     short_seq_prob: float = 0.0,
+                     num_proc,
                      is_custom=False):
     tokenizer = AutoTokenizer.from_pretrained(tokenizer_name)
     target_length = max_seq_length - tokenizer.num_special_tokens_to_add(pair=False)
@@ -159,5 +161,5 @@ if __name__ == '__main__':
         dataset.save_to_disk(args.output_dir)
     else:
         print('download and preprocess custom datastet:')
-        custom_ds = create_book_data(args.tokenizer_name, args.max_seq_length, args.short_seq_prob, is_custom=True)
+        custom_ds = create_book_data(args.tokenizer_name, args.max_seq_length, args.short_seq_prob, args.num_proc, is_custom=True)
         custom_ds.save_to_disk(args.output_dir)
