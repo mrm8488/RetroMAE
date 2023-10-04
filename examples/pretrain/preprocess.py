@@ -23,7 +23,7 @@ def get_args():
 def create_book_data(tokenizer_name: str,
                      max_seq_length: int,
                      short_seq_prob: float = 0.0,
-                     num_proc,
+                     num_proc=8,
                      is_custom=False):
     tokenizer = AutoTokenizer.from_pretrained(tokenizer_name)
     target_length = max_seq_length - tokenizer.num_special_tokens_to_add(pair=False)
