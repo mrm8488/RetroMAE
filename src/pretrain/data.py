@@ -3,14 +3,15 @@ from copy import deepcopy
 from dataclasses import dataclass
 
 import torch.utils.data.dataset
-from datasets import Dataset
+from datasets import Dataset, load_from_disk
 from pretrain.utils import tensorize_batch
 from transformers import DataCollatorForWholeWordMask
 
 
 class DatasetForPretraining(torch.utils.data.Dataset):
     def __init__(self, data_dir):
-        self.dataset = Dataset.load_from_disk(data_dir)
+        self.dataset = load_from_disk(data_dir)
+        print(self.dataset)
 
     def __getitem__(self, item):
         return self.dataset[item]
