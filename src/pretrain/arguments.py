@@ -17,6 +17,10 @@ class DataTrainingArguments:
                     "than this will be truncated. Default to the max input length of the model."
         },
     )
+    continue_pretraining: Optional[bool] = field(
+        default=False,  metadata={"help": "Resume pre-training from ckpt"}
+    )
+    
     encoder_mlm_probability: float = field(default=0.3)
     decoder_mlm_probability: float = field(default=0.5)
 
