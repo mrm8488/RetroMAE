@@ -126,7 +126,7 @@ def main():
 
     # # Training
     if training_args.do_train:
-        trainer.train()
+        trainer.train() if not data_args.continue_pretraining else trainer.train(resume_from_checkpoint=True)
         trainer.save_model()  # Saves the tokenizer too for easy upload
 
 
